@@ -72,7 +72,7 @@ class TaxCalculator extends Component {
       const nhifRelief = (nhifDeduction * 0.15);
       let totalRelief = (parseFloat(nhifRelief) + personalRelief);
 
-      const housingFundLevy = (income * 0.01);
+      const housingFundLevy = (income * 0.015);
 
       const taxBands = [24000, 8333, 467667, 300000, 800000];
       const taxRates = [0.1, 0.25, 0.3, 0.325, 0.35];
