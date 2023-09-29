@@ -1,56 +1,64 @@
 /* TaxCalculator.css */
 
 .tax-calculator {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .calculator-header {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .input-container {
-    text-align: center;
-  }
-  
-  .income-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  button {
-    background-color: #0074d9;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .result-container {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 18px;
-  }
-  
-  .net-salary {
-    color: #4caf50; /* Green color for net salary */
-  }
-  
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white; /* Background color changed to white */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.calculator-header {
+  font-size: 200%;
+  margin-bottom: 20px;
+  text-align: center;
+  color: green; /* Header text color changed to black */
+}
+
+.input-container {
+  text-align: center;
+}
+
+label {
+  color: red; /* Label text color changed to red */
+  font-size: 150%;
+  font-weight: bolder;
+}
+
+.income-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+  width: 80%;
+  margin: 0 auto; /* Center the input horizontally */
+  margin-bottom: 15px;
+  color: black;
+}
+
+button {
+  background-color: red; /* Button background color changed to red */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+/* button:hover {
+  background-color: darkred; /* Button hover background color changed to dark red 
+} */
+
+.result-container {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.net-salary {
+  color: black; /* Net salary text color changed to black */
+}
