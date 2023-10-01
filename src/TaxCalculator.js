@@ -94,7 +94,7 @@ class TaxCalculator extends Component {
       let netTax = parseFloat(incomeTax) - parseFloat(totalRelief);
 
       const totalDeductions =
-        // parseFloat(this.state.helbDeduction) +
+        parseFloat(this.state.helbDeduction) +
         parseFloat(nssfDeduction) +
         parseFloat(nhifDeduction) +
         parseFloat(netTax) +
@@ -119,7 +119,7 @@ class TaxCalculator extends Component {
   render() {
     const {
       income,
-      // helbDeduction,
+      helbDeduction,
       nssfDeduction,
       nhifDeduction,
       incomeTax,
@@ -135,7 +135,7 @@ class TaxCalculator extends Component {
     return (
       <div className="tax-calculator">
         <h1 className="calculator-header">
-          Kenya Income Tax Calculator (Monthly)
+          Net Salary Calculator Ke.
         </h1>
         <div className="input-container">
           <label>Monthly Income (KES):</label>
@@ -174,12 +174,12 @@ class TaxCalculator extends Component {
                   <th>Item</th>
                   <th>Amount (KES)</th>
                 </tr>
-                {/* <tr>
+                <tr>
                   <td>HELB Deduction</td>
                   <td>
                     <b>{this.formatMoney(helbDeduction)}</b>
                   </td>
-                </tr> */}
+                </tr>
                 <tr>
                   <td>NSSF Deduction</td>
                   <td>
