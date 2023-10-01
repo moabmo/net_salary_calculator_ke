@@ -156,7 +156,7 @@ class TaxCalculator extends Component {
             ref={this.incomeInputRef}
           />
           <button onClick={this.calculateTax} disabled={!income}>
-            Calculate Tax
+            <b>Calculate Tax</b>
           </button>
         </div>
         {showError && (
