@@ -62,3 +62,15 @@ button {
 .net-salary {
   color: black; /* Net salary text color changed to black */
 }
+
+/* Add this to your CSS file (TaxCalculator.css) */
+.dotted-border-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.dotted-border-table th, .dotted-border-table td {
+  border: 1px dotted #000;
+  padding: 8px;
+  text-align: left;
+}

@@ -18,7 +18,7 @@ class TaxCalculator extends Component {
       totalRelief: 0,
       netTax: 0,
       showResults: false,
-      showError: false, // New state for showing error
+      showError: false,
     };
 
     // Create a ref for the income input field
@@ -64,15 +64,15 @@ class TaxCalculator extends Component {
       let taxableIncome = Math.max(income - personalRelief, 24001);
 
       const nssfRate = 0.06;
-      const nssfDeduction = (income * nssfRate);
+      const nssfDeduction = income * nssfRate;
 
       const nhifRate = 0.0275;
-      const nhifDeduction = (income * nhifRate);
+      const nhifDeduction = income * nhifRate;
 
-      const nhifRelief = (nhifDeduction * 0.15);
-      let totalRelief = (parseFloat(nhifRelief) + personalRelief);
+      const nhifRelief = nhifDeduction * 0.15;
+      let totalRelief = parseFloat(nhifRelief) + personalRelief;
 
-      const housingFundLevy = (income * 0.015);
+      const housingFundLevy = income * 0.015;
 
       const taxBands = [24000, 8333, 467667, 300000, 800000];
       const taxRates = [0.1, 0.25, 0.3, 0.325, 0.35];
@@ -85,23 +85,22 @@ class TaxCalculator extends Component {
         }
 
         const bandIncome = Math.min(taxableIncome, taxBands[i]);
-        incomeTax += (bandIncome * taxRates[i]);
+        incomeTax += bandIncome * taxRates[i];
         taxableIncome -= bandIncome;
       }
 
       incomeTax = Math.max(0, parseFloat(incomeTax));
 
-      let netTax = (parseFloat(incomeTax) - parseFloat(totalRelief));
+      let netTax = parseFloat(incomeTax) - parseFloat(totalRelief);
 
-      const totalDeductions = (
-        parseFloat(this.state.helbDeduction) +
+      const totalDeductions =
+        // parseFloat(this.state.helbDeduction) +
         parseFloat(nssfDeduction) +
         parseFloat(nhifDeduction) +
         parseFloat(netTax) +
-        parseFloat(housingFundLevy)
-      );
+        parseFloat(housingFundLevy);
 
-      const netSalary = (parseFloat(income) - parseFloat(totalDeductions));
+      const netSalary = parseFloat(income) - parseFloat(totalDeductions);
 
       this.setState({
         nssfDeduction,
@@ -118,11 +117,26 @@ class TaxCalculator extends Component {
   };
 
   render() {
-    const { income, helbDeduction, nssfDeduction, nhifDeduction, incomeTax, totalDeductions, netSalary, personalRelief, nhifRelief, housingFundLevy, showResults, showError } = this.state;
+    const {
+      income,
+      // helbDeduction,
+      nssfDeduction,
+      nhifDeduction,
+      incomeTax,
+      totalDeductions,
+      netSalary,
+      personalRelief,
+      nhifRelief,
+      housingFundLevy,
+      showResults,
+      showError,
+    } = this.state;
 
     return (
       <div className="tax-calculator">
-        <h1 className="calculator-header">Kenya Income Tax Calculator (Monthly)</h1>
+        <h1 className="calculator-header">
+          Kenya Income Tax Calculator (Monthly)
+        </h1>
         <div className="input-container">
           <label>Monthly Income (KES):</label>
           <input
@@ -130,30 +144,92 @@ class TaxCalculator extends Component {
             name="income"
             value={income}
             onBlur={this.handleInputBlur}
-            onChange={(e) => this.setState({ income: e.target.value, showResults: false })}
+            onChange={(e) =>
+              this.setState({ income: e.target.value, showResults: false })
+            }
             onKeyUp={(e) => {
-              e.target.value = e.target.value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              e.target.value = e.target.value
+                .replace(/\D/g, '')
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             }}
             className="income-input"
-            ref={this.incomeInputRef} // Assign the ref to the input field
+            ref={this.incomeInputRef}
           />
-          <button onClick={this.calculateTax} disabled={!income}>Calculate Tax</button>
+          <button onClick={this.calculateTax} disabled={!income}>
+            Calculate Tax
+          </button>
         </div>
         {showError && (
-          <p className="error-message">Please enter a valid income amount above 15120/- which is the minimum wage.</p>
+          <p className="error-message">
+            Please enter a valid income amount above 15120/- which is the
+            minimum wage.
+          </p>
         )}
         {showResults && (
           <div className="result-container">
             <h2>Breakdown of Deductions:</h2>
-            <p>HELB Deduction (KES): <b>{this.formatMoney(helbDeduction)}</b></p>
-            <p>NSSF Deduction (KES): <b>{this.formatMoney(nssfDeduction)}</b></p>
-            <p>NHIF Deduction (KES): <b>{this.formatMoney(nhifDeduction)}</b></p>
-            <p>MPR (KES): <b>{this.formatMoney(personalRelief)}</b></p>
-            <p>NHIF Relief (KES): <b>{this.formatMoney(nhifRelief)}</b></p>
-            <p>Housing Fund Levy (KES): <b>{this.formatMoney(housingFundLevy)}</b></p>
-            <p>Income Tax (KES): <b>{this.formatMoney(incomeTax)}</b></p>
-            <p>Total Deductions (KES): <b>{this.formatMoney(totalDeductions)}</b></p>
-            <h3 className="net-salary">Net Salary (KES): <span style={{ color: 'green' }}><b>{this.formatMoney(netSalary)}</b></span> </h3>
+            <table className="dotted-border-table">
+              <tbody>
+                <tr>
+                  <th>Item</th>
+                  <th>Amount (KES)</th>
+                </tr>
+                {/* <tr>
+                  <td>HELB Deduction</td>
+                  <td>
+                    <b>{this.formatMoney(helbDeduction)}</b>
+                  </td>
+                </tr> */}
+                <tr>
+                  <td>NSSF Deduction</td>
+                  <td>
+                    <b>{this.formatMoney(nssfDeduction)}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td>NHIF Deduction</td>
+                  <td>
+                    <b>{this.formatMoney(nhifDeduction)}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td>MPR</td>
+                  <td>
+                    <b>{this.formatMoney(personalRelief)}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td>NHIF Relief</td>
+                  <td>
+                    <b>{this.formatMoney(nhifRelief)}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Housing Fund Levy</td>
+                  <td>
+                    <b>{this.formatMoney(housingFundLevy)}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Income Tax</td>
+                  <td>
+                    <b>{this.formatMoney(incomeTax)}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total Deductions</td>
+                  <td>
+                    <b>{this.formatMoney(totalDeductions)}</b>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h3 className="net-salary">
+              Net Salary (KES):{' '}
+              <span style={{ color: 'green' }}>
+                <b>{this.formatMoney(netSalary)}</b>
+              </span>{' '}
+            </h3>
           </div>
         )}
       </div>
