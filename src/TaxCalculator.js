@@ -6,7 +6,7 @@ class TaxCalculator extends Component {
     super(props);
     this.state = {
       income: '',
-      helbDeduction: 4000,
+      helbDeduction: 4090,
       nssfDeduction: 0,
       nhifDeduction: 0,
       incomeTax: 0,
