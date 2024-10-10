@@ -1,82 +1,176 @@
 /* TaxCalculator.css */
-body{
-  background-color: rgb(241, 241, 241);;
+
+body {
+  background: #f5f5f5; /* Light grey background */
+  font-family: 'Comfortaa', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  color: #2c3e50;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1200px;
+  padding: 20px;
 }
 
 .tax-calculator {
-  max-width: 400px;
-  margin: 0 auto;
+  width: 50%; /* Adjusted width for form */
   padding: 20px;
-  background-color: white; /* Background color changed to white */
-  border-radius: 8px;
-  box-shadow: 0 0 20px grey;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-right: 30px; /* Space between input form and results card */
+  height: auto;
 }
 
 .calculator-header {
-  font-size: 180%;
-  margin-bottom: 20px;
+  font-size: 1.6em;
+  margin-bottom: 15px;
   text-align: center;
-  color: green; /* Header text color changed to black */
+  color: #3498db;
 }
 
 .input-container {
-  text-align: center;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-label {
-  color: red; /* Label text color changed to red */
-  font-size: 150%;
-  font-weight: bolder;
+.input-container label {
+  font-size: 1em;
+  font-weight: bold;
+  color: #2c3e50;
 }
 
-.income-input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  text-align: center;
-  width: 80%;
-  margin: 0 auto; /* Center the input horizontally */
-  margin-bottom: 15px;
-  color: black;
+.input-container input[type="number"],
+.input-container input[type="text"] {
+  padding: 6px; /* Reduced padding */
+  border: 1px solid #b0bec5;
+  border-radius: 6px;
+  font-size: 0.95em;
+  background-color: #f9f9f9;
+  color: #2c3e50;
+  height: 30px; /* Set a fixed height for inputs */
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
 }
 
 button {
-  background-color: red; /* Button background color changed to red */
+  background-color: #3498db;
   color: white;
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-size: 1.1em;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   width: 100%;
-  font-weight: bolder;
-  font-size: 120%;
-  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-/* button:hover {
-  background-color: darkred; /* Button hover background color changed to dark red 
-} */
+button:hover {
+  background-color: #2980b9;
+}
 
-.result-container {
-  margin-top: 20px;
+/* Card style for results */
+.result-card {
+  width: 60%; /* Increased width */
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px dotted #b0bec5;
+}
+
+.result-container h2 {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+  color: #3498db;
   text-align: center;
-  font-size: 18px;
 }
 
-.net-salary {
-  color: black; /* Net salary text color changed to black */
+.result-section {
+  margin-bottom: 12px;
 }
 
-/* Add this to your CSS file (TaxCalculator.css) */
+.result-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  border-bottom: 1px dashed #b0bec5;
+  padding-bottom: 5px;
+}
+
+.result-data {
+  font-size: 1em;
+  color: #2c3e50;
+}
+
+.totals {
+  font-weight: bold;
+  font-size: 1.3em;
+  color: #27ae60;
+}
+
+.negative {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
 .dotted-border-table {
   border-collapse: collapse;
   width: 100%;
 }
 
-.dotted-border-table th, .dotted-border-table td {
-  border: 1px dotted #000;
+.dotted-border-table th, 
+.dotted-border-table td {
+  border: 1px dotted #b0bec5;
   padding: 8px;
+  font-size: 1em;
   text-align: left;
+  color: #2c3e50;
+}
+
+.net-salary {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #27ae60;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Ensures card accommodates all content without breaking lines */
+.result-card p {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tax-calculator,
+  .result-card {
+    width: 100%;
+  }
 }

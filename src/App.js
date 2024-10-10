@@ -1,11 +1,11 @@
 import './App.css';
-import './TaxCalculator.js'
-import TaxCalculator from './TaxCalculator.js';
+import './NetPayCalculator.js'
+import NetPayCalculator from './NetPayCalculator.js';
 
 function App() {
   return (
     <div className="App">
-      <TaxCalculator />
+      <NetPayCalculator />
     </div>
   );
 }
