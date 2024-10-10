@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { FaFilePdf, FaCalculator } from 'react-icons/fa'; // Icons for the UI
 import './TaxCalculator.css'; // Updated CSS
 
@@ -92,14 +91,62 @@ const NetPayCalculator = () => {
   };
 
   const downloadPDF = () => {
-    const input = document.getElementById('report-card');
-    html2canvas(input)
-      .then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 10, 10, 190, 0); // Adjust the size as needed
-        pdf.save('net_pay_report.pdf');
-      });
+    const pdf = new jsPDF();
+
+    // Title and Basic Information
+    pdf.setFontSize(20);
+    pdf.text('Net Pay Report', 105, 20, { align: 'center' });
+    pdf.setFontSize(12);
+    pdf.text(`Date: ${new Date().toLocaleDateString()}`, 14, 30);
+    pdf.line(14, 32, 196, 32); // Horizontal line
+
+    // Earnings Section
+    pdf.setFontSize(16);
+    pdf.text('Earnings', 14, 40);
+    pdf.setFontSize(12);
+    pdf.text(`Basic Salary: Ksh ${detailedDeductions.basicSalary}`, 14, 50);
+    pdf.text(`Allowances: Ksh ${detailedDeductions.allowances}`, 14, 60);
+    pdf.text(`Total Earnings: Ksh ${detailedDeductions.grossSalary}`, 14, 70);
+    pdf.line(14, 72, 196, 72); // Horizontal line
+
+    // Deductions Section
+    pdf.setFontSize(16);
+    pdf.text('Deductions', 14, 80);
+    pdf.setFontSize(12);
+    pdf.text(`NSSF Contribution: Ksh ${detailedDeductions.nssfContribution}`, 14, 90);
+    if (hasPension) {
+      pdf.text(`Pension Contribution: Ksh ${detailedDeductions.pension}`, 14, 100);
+    }
+    pdf.text(`SHIF/NHIF Contribution: Ksh ${detailedDeductions.shifContribution}`, 14, 110);
+    pdf.text(`Housing Levy: Ksh ${detailedDeductions.housingLevy}`, 14, 120);
+    if (hasLoan) {
+      pdf.text(`Loan Deduction: Ksh ${detailedDeductions.loanDeduct}`, 14, 130);
+    }
+    pdf.text(`Total Deductions: Ksh ${detailedDeductions.totalDeductions}`, 14, 140);
+    pdf.line(14, 142, 196, 142); // Horizontal line
+
+    // Tax Relief Section
+    pdf.setFontSize(16);
+    pdf.text('Tax Relief', 14, 150);
+    pdf.setFontSize(12);
+    pdf.text(`PAYE Before Relief: Ksh ${detailedDeductions.payeBeforeRelief}`, 14, 160);
+    pdf.text(`Tax Relief: Ksh ${detailedDeductions.taxRelief}`, 14, 170);
+    pdf.text(`PAYE After Relief: Ksh ${detailedDeductions.payeAfterRelief}`, 14, 180);
+    pdf.line(14, 182, 196, 182); // Horizontal line
+
+    // Net Pay Section
+    pdf.setFontSize(16);
+    pdf.text('Net Pay', 14, 190);
+    pdf.setFontSize(12);
+    pdf.text(`Net Pay: Ksh ${detailedDeductions.netPay}`, 14, 200);
+    pdf.line(14, 202, 196, 202); // Horizontal line
+
+    // Copyright Footer
+    pdf.setFontSize(10);
+    pdf.text('© 2024 MoabMo. All rights reserved.', 105, 280, { align: 'center' });
+
+    // Save the PDF
+    pdf.save('net_pay_report.pdf');
   };
 
   return (
