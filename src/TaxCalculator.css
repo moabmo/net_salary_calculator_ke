@@ -1,7 +1,5 @@
-/* TaxCalculator.css */
-
 body {
-  background: #f5f5f5; /* Light grey background */
+  background: #f2f2f2; /* Light grey background */
   font-family: 'Comfortaa', sans-serif;
   margin: 0;
   padding: 0;
@@ -15,19 +13,21 @@ body {
 .container {
   display: flex;
   justify-content: space-between;
-  width: 90%;
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1600px;
   padding: 20px;
 }
 
 .tax-calculator {
-  width: 50%; /* Adjusted width for form */
+  width: 60%; /* 30% width for form */
   padding: 20px;
   background-color: #ffffff;
-  border-radius: 12px;
+  border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-right: 30px; /* Space between input form and results card */
-  height: auto;
+  margin-right: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .calculator-header {
@@ -39,10 +39,9 @@ body {
 
 .input-container {
   display: grid;
-  grid-template-columns: auto 1fr;
-  grid-gap: 8px;
+  grid-template-columns: 1fr; /* 1 column for consistency */
+  grid-gap: 10px;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .input-container label {
@@ -53,13 +52,14 @@ body {
 
 .input-container input[type="number"],
 .input-container input[type="text"] {
-  padding: 6px; /* Reduced padding */
+  padding: 8px;
   border: 1px solid #b0bec5;
   border-radius: 6px;
   font-size: 0.95em;
   background-color: #f9f9f9;
   color: #2c3e50;
-  height: 30px; /* Set a fixed height for inputs */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 input[type="checkbox"] {
@@ -70,13 +70,14 @@ input[type="checkbox"] {
 button {
   background-color: #3498db;
   color: white;
-  padding: 10px;
+  padding: 12px;
   border: none;
   border-radius: 6px;
   font-size: 1.1em;
   cursor: pointer;
   width: 100%;
   transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
 button:hover {
@@ -85,34 +86,50 @@ button:hover {
 
 /* Card style for results */
 .result-card {
-  width: 60%; /* Increased width */
+  width: 100%; /* 60% width for results */
   padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  background: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px dotted #b0bec5;
+  justify-content: flex-start;
+  border: 1px solid #ddd;
+  position: relative; /* Make sure the ::before pseudo-element is positioned correctly */
+  z-index: 1; /* Ensure content appears above the background image */
+  overflow: hidden; /* Clip the ::before element */
 }
 
-.result-container h2 {
+.result-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('slip.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.07; /* Apply opacity only to the background image */
+  z-index: -1; /* Place the image behind the content */
+}
+
+.result-card h2 {
   font-size: 1.4em;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: #3498db;
-  text-align: center;
 }
 
 .result-section {
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 .result-title {
   font-size: 1.1em;
   font-weight: bold;
   color: #2c3e50;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   border-bottom: 1px dashed #b0bec5;
   padding-bottom: 5px;
 }
@@ -120,6 +137,17 @@ button:hover {
 .result-data {
   font-size: 1em;
   color: #2c3e50;
+}
+
+.result-section p {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.result-section p span {
+  text-align: right; /* Right-align numbers */
+  display: inline-block;
 }
 
 .totals {
@@ -133,20 +161,6 @@ button:hover {
   font-weight: bold;
 }
 
-.dotted-border-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.dotted-border-table th, 
-.dotted-border-table td {
-  border: 1px dotted #b0bec5;
-  padding: 8px;
-  font-size: 1em;
-  text-align: left;
-  color: #2c3e50;
-}
-
 .net-salary {
   font-size: 1.5em;
   font-weight: bold;
@@ -155,14 +169,7 @@ button:hover {
   margin-top: 15px;
 }
 
-/* Ensures card accommodates all content without breaking lines */
-.result-card p {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin: 5px 0;
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
@@ -172,5 +179,6 @@ button:hover {
   .tax-calculator,
   .result-card {
     width: 100%;
+    margin-bottom: 20px;
   }
 }

@@ -322,9 +322,9 @@ const NetPayCalculator = () => {
 
           <div className="result-section">
             <p className="result-title">Earnings</p>
-            <p>Basic Salary: Ksh {detailedDeductions.basicSalary}</p>
-            <p>Allowances: Ksh {detailedDeductions.allowances}</p>
-            <p>Total Earnings: Ksh {detailedDeductions.grossSalary}</p>
+            <p>Basic Salary: <span>Ksh {detailedDeductions.basicSalary}</span></p>
+            <p>Allowances: <span>Ksh {detailedDeductions.allowances}</span></p>
+            <p>Total Earnings: <span>Ksh {detailedDeductions.grossSalary}</span></p>
           </div>
 
           <div className="result-section">
@@ -343,9 +343,9 @@ const NetPayCalculator = () => {
 
           <div className="result-section">
             <p className="result-title">Tax Relief</p>
-            <p>PAYE Before Relief: Ksh {detailedDeductions.payeBeforeRelief}</p>
-            <p>Tax Relief: Ksh {detailedDeductions.taxRelief}</p>
-            <p>PAYE After Relief: Ksh {detailedDeductions.payeAfterRelief}</p>
+            <p>PAYE Before Relief: <span>Ksh {detailedDeductions.payeBeforeRelief}</span></p>
+            <p>Tax Relief: <span>Ksh {detailedDeductions.taxRelief}</span></p>
+            <p>PAYE After Relief: <span>Ksh {detailedDeductions.payeAfterRelief}</span></p>
           </div>
 
           <h2 className="net-salary">Net Pay: Ksh {detailedDeductions.netPay}</h2>
