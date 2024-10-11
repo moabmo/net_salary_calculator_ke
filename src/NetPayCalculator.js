@@ -92,62 +92,124 @@ const NetPayCalculator = () => {
 
   const downloadPDF = () => {
     const pdf = new jsPDF();
-
-    // Title and Basic Information
-    pdf.setFontSize(20);
-    pdf.text('Net Pay Report', 105, 20, { align: 'center' });
-    pdf.setFontSize(12);
-    pdf.text(`Date: ${new Date().toLocaleDateString()}`, 14, 30);
-    pdf.line(14, 32, 196, 32); // Horizontal line
-
-    // Earnings Section
+    const pageWidth = pdf.internal.pageSize.width;
+  
+    // Define colors
+    const headerColor = '#3498db'; // Blue header color
+    const sectionHeaderColor = '#2ecc71'; // Green section header color
+    const textColor = '#2c3e50'; // Dark text color
+    const highlightColor = '#e74c3c'; // Red for highlighting deductions
+  
+    // Add a refined border with rounded corners
+    pdf.setDrawColor(0); // Black border
+    pdf.setLineWidth(0.7);
+    pdf.roundedRect(10, 10, pageWidth - 20, 260, 10, 10); // Rounded corners
+  
+    // Title Section
     pdf.setFontSize(16);
-    pdf.text('Earnings', 14, 40);
-    pdf.setFontSize(12);
-    pdf.text(`Basic Salary: Ksh ${detailedDeductions.basicSalary}`, 14, 50);
-    pdf.text(`Allowances: Ksh ${detailedDeductions.allowances}`, 14, 60);
-    pdf.text(`Total Earnings: Ksh ${detailedDeductions.grossSalary}`, 14, 70);
-    pdf.line(14, 72, 196, 72); // Horizontal line
-
-    // Deductions Section
-    pdf.setFontSize(16);
-    pdf.text('Deductions', 14, 80);
-    pdf.setFontSize(12);
-    pdf.text(`NSSF Contribution: Ksh ${detailedDeductions.nssfContribution}`, 14, 90);
-    if (hasPension) {
-      pdf.text(`Pension Contribution: Ksh ${detailedDeductions.pension}`, 14, 100);
-    }
-    pdf.text(`SHIF/NHIF Contribution: Ksh ${detailedDeductions.shifContribution}`, 14, 110);
-    pdf.text(`Housing Levy: Ksh ${detailedDeductions.housingLevy}`, 14, 120);
+    pdf.setTextColor(headerColor);
+    pdf.text('Net Pay Financial Report', pageWidth / 2, 20, { align: 'center' });
+  
+    // Date
+    pdf.setFontSize(11);
+    pdf.setTextColor(textColor);
+    pdf.text(`Date: ${new Date().toLocaleDateString()}`, 14, 28);
+  
+    // Line below the title
+    pdf.setDrawColor(200, 200, 200); // Light grey for lines
+    pdf.line(14, 32, pageWidth - 14, 32);
+  
+    // EARNINGS Section
+    pdf.setFontSize(13);
+    pdf.setTextColor(sectionHeaderColor);
+    pdf.text('EARNINGS:', 14, 38);
+    pdf.setFontSize(11);
+    pdf.setTextColor(textColor);
+    pdf.text('Basic Salary:', 14, 44);
+    pdf.text('Allowances:', 14, 50);
+    pdf.setFont(undefined, 'bold');
+    pdf.text('Gross Salary:', 14, 56);
+  
+    // Right-align earnings values
+    pdf.setFont(undefined, 'normal');
+    pdf.text(`Ksh ${detailedDeductions.basicSalary}`, pageWidth - 14, 44, { align: 'right' });
+    pdf.text(`Ksh ${detailedDeductions.allowances}`, pageWidth - 14, 50, { align: 'right' });
+    pdf.setFont(undefined, 'bold');
+    pdf.text(`Ksh ${detailedDeductions.grossSalary}`, pageWidth - 14, 56, { align: 'right' });
+    pdf.line(14, 60, pageWidth - 14, 60); // Line after section
+  
+    // TAX CALCULATION Section
+    pdf.setFontSize(13);
+    pdf.setTextColor(sectionHeaderColor);
+    pdf.text('TAX CALCULATION:', 14, 66);
+    pdf.setFontSize(11);
+    pdf.setTextColor(textColor);
+    pdf.text('Taxable Pay:', 14, 72);
+    pdf.text('PAYE Before Relief:', 14, 78);
+    pdf.text('Personal Relief:', 14, 84);
+    pdf.setFont(undefined, 'bold');
+    pdf.text('PAYE After Relief:', 14, 90);
+  
+    // Right-align tax calculation values
+    pdf.setFont(undefined, 'normal');
+    pdf.text(`Ksh ${detailedDeductions.taxableIncome}`, pageWidth - 14, 72, { align: 'right' });
+    pdf.text(`Ksh ${detailedDeductions.payeBeforeRelief}`, pageWidth - 14, 78, { align: 'right' });
+    pdf.text(`Ksh ${detailedDeductions.taxRelief}`, pageWidth - 14, 84, { align: 'right' });
+    pdf.setFont(undefined, 'bold');
+    pdf.text(`Ksh ${detailedDeductions.payeAfterRelief}`, pageWidth - 14, 90, { align: 'right' });
+    pdf.line(14, 94, pageWidth - 14, 94);
+  
+    // DEDUCTIONS Section
+    pdf.setFontSize(13);
+    pdf.setTextColor(sectionHeaderColor);
+    pdf.text('DEDUCTIONS:', 14, 100);
+    pdf.setFontSize(11);
+    pdf.setTextColor(textColor);
+    pdf.text('NSSF:', 14, 106);
+    pdf.text('SHIF/NHIF:', 14, 112);
+    pdf.text('Housing Levy:', 14, 118);
     if (hasLoan) {
-      pdf.text(`Loan Deduction: Ksh ${detailedDeductions.loanDeduct}`, 14, 130);
+      pdf.text('Loan Deduction:', 14, 124);
     }
-    pdf.text(`Total Deductions: Ksh ${detailedDeductions.totalDeductions}`, 14, 140);
-    pdf.line(14, 142, 196, 142); // Horizontal line
-
-    // Tax Relief Section
-    pdf.setFontSize(16);
-    pdf.text('Tax Relief', 14, 150);
-    pdf.setFontSize(12);
-    pdf.text(`PAYE Before Relief: Ksh ${detailedDeductions.payeBeforeRelief}`, 14, 160);
-    pdf.text(`Tax Relief: Ksh ${detailedDeductions.taxRelief}`, 14, 170);
-    pdf.text(`PAYE After Relief: Ksh ${detailedDeductions.payeAfterRelief}`, 14, 180);
-    pdf.line(14, 182, 196, 182); // Horizontal line
-
+    pdf.setFont(undefined, 'bold');
+    pdf.setTextColor(highlightColor);
+    pdf.text('Total Deductions:', 14, hasLoan ? 130 : 124);
+  
+    // Right-align deduction values
+    pdf.setFont(undefined, 'normal');
+    pdf.setTextColor(textColor);
+    pdf.text(`Ksh ${detailedDeductions.nssfContribution}`, pageWidth - 14, 106, { align: 'right' });
+    pdf.text(`Ksh ${detailedDeductions.shifContribution}`, pageWidth - 14, 112, { align: 'right' });
+    pdf.text(`Ksh ${detailedDeductions.housingLevy}`, pageWidth - 14, 118, { align: 'right' });
+    if (hasLoan) {
+      pdf.text(`Ksh ${detailedDeductions.loanDeduct}`, pageWidth - 14, 124, { align: 'right' });
+    }
+    pdf.setFont(undefined, 'bold');
+    pdf.setTextColor(highlightColor);
+    pdf.text(`Ksh ${detailedDeductions.totalDeductions}`, pageWidth - 14, hasLoan ? 130 : 124, { align: 'right' });
+    pdf.line(14, hasLoan ? 134 : 128, pageWidth - 14, hasLoan ? 134 : 128);
+  
     // Net Pay Section
-    pdf.setFontSize(16);
-    pdf.text('Net Pay', 14, 190);
-    pdf.setFontSize(12);
-    pdf.text(`Net Pay: Ksh ${detailedDeductions.netPay}`, 14, 200);
-    pdf.line(14, 202, 196, 202); // Horizontal line
-
-    // Copyright Footer
+    pdf.setFontSize(13);
+    pdf.setTextColor(sectionHeaderColor);
+    pdf.text('NET PAY:', 14, hasLoan ? 140 : 134);
+    pdf.setFontSize(15);
+    pdf.setFont(undefined, 'bold');
+    pdf.setTextColor('#27ae60'); // Green for net pay
+    pdf.text(`Ksh ${detailedDeductions.netPay}`, pageWidth - 14, hasLoan ? 140 : 134, { align: 'right' });
+    pdf.line(14, hasLoan ? 144 : 138, pageWidth - 14, hasLoan ? 144 : 138);
+  
+    // Add copyright footer
     pdf.setFontSize(10);
-    pdf.text('© 2024 MoabMo. All rights reserved.', 105, 280, { align: 'center' });
-
+    pdf.setFont(undefined, 'normal');
+    pdf.setTextColor('#7f8c8d'); // Light grey for footer
+    pdf.text('© 2024 MoabMo. All rights reserved.', pageWidth / 2, 260, { align: 'center' });
+  
     // Save the PDF
     pdf.save('net_pay_report.pdf');
   };
+  
+  
 
   return (
     <div className="container">
