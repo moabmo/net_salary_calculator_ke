@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import jsPDF from 'jspdf';
-import { FaFilePdf, FaCalculator } from 'react-icons/fa'; // Icons for the UI
-import './TaxCalculator.css'; // Updated CSS
+import { FaFilePdf, FaCalculator } from 'react-icons/fa';
+import './TaxCalculator.css';
 
 const formatNumber = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -18,6 +18,9 @@ const NetPayCalculator = () => {
   const [pensionAmount, setPensionAmount] = useState("");
   const [pensionPercentage, setPensionPercentage] = useState("");
   const [detailedDeductions, setDetailedDeductions] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+
+  const handleDarkModeToggle = () => setDarkMode(!darkMode);
 
   const handleCalculate = () => {
     let basic = parseFloat(basicSalary) || 0;
@@ -97,39 +100,31 @@ const NetPayCalculator = () => {
 
     const imgPath = `${process.env.PUBLIC_URL}/slip.png`;
 
-    // Set the font to Comfortaa
     pdf.setFont('Comfortaa', 'normal');
 
-    // Load the image as background
     pdf.addImage(
-        imgPath,
-        'PNG',
-        10,
-        10,
-        pageWidth - 20,
-        100 // Adjust the height as needed
+      imgPath,
+      'PNG',
+      10,
+      10,
+      pageWidth - 20,
+      100
     );
 
-    // Draw a more opaque white overlay to simulate higher image transparency
-    pdf.setFillColor(255, 255, 255); // White color
-    pdf.setDrawColor(255, 255, 255); // White border
-    pdf.setGState(new pdf.GState({ opacity: 0.8 })); // Set higher opacity for the overlay
-    pdf.rect(10, 10, pageWidth - 20, 100, 'F'); // Draw filled rectangle over image
-
-    // Reset opacity for text and other elements
+    pdf.setFillColor(255, 255, 255);
+    pdf.setDrawColor(255, 255, 255);
+    pdf.setGState(new pdf.GState({ opacity: 0.8 }));
+    pdf.rect(10, 10, pageWidth - 20, 100, 'F');
     pdf.setGState(new pdf.GState({ opacity: 1 }));
 
-    // Title Section
     pdf.setFontSize(16);
     pdf.setTextColor('#3498db');
     pdf.text('Payslip', pageWidth / 2, 30, { align: 'center' });
 
-    // Date
     pdf.setFontSize(11);
     pdf.setTextColor('#2c3e50');
     pdf.text(`Date: ${new Date().toLocaleDateString()}`, 14, 40);
 
-    // EARNINGS Section
     pdf.setFontSize(13);
     pdf.setTextColor('#2ecc71');
     pdf.text('EARNINGS:', 14, 50);
@@ -140,7 +135,6 @@ const NetPayCalculator = () => {
     pdf.setFont(undefined, 'bold');
     pdf.text('Gross Salary:', 14, 68);
 
-    // Right-align earnings values
     pdf.setFont(undefined, 'normal');
     pdf.text(`Ksh ${detailedDeductions.basicSalary}`, pageWidth - 14, 56, { align: 'right' });
     pdf.text(`Ksh ${detailedDeductions.allowances}`, pageWidth - 14, 62, { align: 'right' });
@@ -148,7 +142,6 @@ const NetPayCalculator = () => {
     pdf.text(`Ksh ${detailedDeductions.grossSalary}`, pageWidth - 14, 68, { align: 'right' });
     pdf.line(14, 72, pageWidth - 14, 72);
 
-    // DEDUCTIONS Section
     pdf.setFontSize(13);
     pdf.setTextColor('#e74c3c');
     pdf.text('DEDUCTIONS:', 14, 80);
@@ -157,7 +150,7 @@ const NetPayCalculator = () => {
     pdf.text('NSSF:', 14, 86);
     pdf.text('SHIF/NHIF:', 14, 92);
     pdf.text('Housing Levy:', 14, 98);
-    pdf.text('PAYE:', 14, 104);  // Added PAYE field
+    pdf.text('PAYE:', 14, 104);
     if (hasLoan) {
       pdf.text('Loan Deduction:', 14, 110);
     }
@@ -165,13 +158,12 @@ const NetPayCalculator = () => {
     pdf.setTextColor('#e74c3c');
     pdf.text('Total Deductions:', 14, hasLoan ? 116 : 110);
 
-    // Right-align deduction values, including PAYE
     pdf.setFont(undefined, 'normal');
     pdf.setTextColor('#2c3e50');
     pdf.text(`Ksh ${detailedDeductions.nssfContribution}`, pageWidth - 14, 86, { align: 'right' });
     pdf.text(`Ksh ${detailedDeductions.shifContribution}`, pageWidth - 14, 92, { align: 'right' });
     pdf.text(`Ksh ${detailedDeductions.housingLevy}`, pageWidth - 14, 98, { align: 'right' });
-    pdf.text(`Ksh ${detailedDeductions.payeAfterRelief}`, pageWidth - 14, 104, { align: 'right' }); // PAYE value
+    pdf.text(`Ksh ${detailedDeductions.payeAfterRelief}`, pageWidth - 14, 104, { align: 'right' });
     if (hasLoan) {
       pdf.text(`Ksh ${detailedDeductions.loanDeduct}`, pageWidth - 14, 110, { align: 'right' });
     }
@@ -180,7 +172,6 @@ const NetPayCalculator = () => {
     pdf.text(`Ksh ${detailedDeductions.totalDeductions}`, pageWidth - 14, hasLoan ? 116 : 110, { align: 'right' });
     pdf.line(14, hasLoan ? 120 : 114, pageWidth - 14, hasLoan ? 120 : 114);
 
-    // Net Pay Section
     pdf.setFontSize(13);
     pdf.setTextColor('#2ecc71');
     pdf.text('NET PAY:', 14, hasLoan ? 126 : 120);
@@ -190,20 +181,21 @@ const NetPayCalculator = () => {
     pdf.text(`Ksh ${detailedDeductions.netPay}`, pageWidth - 14, hasLoan ? 126 : 120, { align: 'right' });
     pdf.line(14, hasLoan ? 130 : 124, pageWidth - 14, hasLoan ? 130 : 124);
 
-    // Footer
     pdf.setFontSize(10);
     pdf.setFont(undefined, 'normal');
     pdf.setTextColor('#7f8c8d');
     pdf.text('© 2024 moabmo. All rights reserved.', pageWidth / 2, hasLoan ? 136 : 130, { align: 'center' });
 
-    // Save the PDF
     pdf.save('net_pay_report.pdf');
-};
-
+  };
 
   return (
-    <div className="container">
-      <div className="tax-calculator">
+    <div className={`container ${darkMode ? "dark" : ""}`}>
+      <div className={`toggle-dark-mode ${darkMode ? "active" : ""}`} onClick={handleDarkModeToggle}>
+        <div className="toggle-circle"></div>
+      </div>
+
+      <div className={`tax-calculator ${darkMode ? "dark" : ""}`}>
         <h1 className="calculator-header">
           <FaCalculator style={{ marginRight: '10px' }} />
           Net Pay Calculator
@@ -307,7 +299,7 @@ const NetPayCalculator = () => {
       </div>
 
       {detailedDeductions && (
-        <div className="result-card" id="report-card">
+        <div className={`result-card ${darkMode ? "dark" : ""}`} id="report-card">
           <h2>Calculation Details</h2>
 
           <div className="result-section">
