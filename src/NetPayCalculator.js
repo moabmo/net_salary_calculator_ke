@@ -97,15 +97,27 @@ const NetPayCalculator = () => {
 
     const imgPath = `${process.env.PUBLIC_URL}/slip.png`;
 
-    // Load the image, set the opacity, and maintain the aspect ratio
+    // Set the font to Comfortaa
+    pdf.setFont('Comfortaa', 'normal');
+
+    // Load the image as background
     pdf.addImage(
-      imgPath,
-      'PNG',
-      10,
-      10,
-      pageWidth - 20,
-      100, // Set the height, will scale proportionally to width
+        imgPath,
+        'PNG',
+        10,
+        10,
+        pageWidth - 20,
+        100 // Adjust the height as needed
     );
+
+    // Draw a more opaque white overlay to simulate higher image transparency
+    pdf.setFillColor(255, 255, 255); // White color
+    pdf.setDrawColor(255, 255, 255); // White border
+    pdf.setGState(new pdf.GState({ opacity: 0.8 })); // Set higher opacity for the overlay
+    pdf.rect(10, 10, pageWidth - 20, 100, 'F'); // Draw filled rectangle over image
+
+    // Reset opacity for text and other elements
+    pdf.setGState(new pdf.GState({ opacity: 1 }));
 
     // Title Section
     pdf.setFontSize(16);
@@ -145,46 +157,49 @@ const NetPayCalculator = () => {
     pdf.text('NSSF:', 14, 86);
     pdf.text('SHIF/NHIF:', 14, 92);
     pdf.text('Housing Levy:', 14, 98);
+    pdf.text('PAYE:', 14, 104);  // Added PAYE field
     if (hasLoan) {
-      pdf.text('Loan Deduction:', 14, 104);
+      pdf.text('Loan Deduction:', 14, 110);
     }
     pdf.setFont(undefined, 'bold');
     pdf.setTextColor('#e74c3c');
-    pdf.text('Total Deductions:', 14, hasLoan ? 110 : 104);
+    pdf.text('Total Deductions:', 14, hasLoan ? 116 : 110);
 
-    // Right-align deduction values
+    // Right-align deduction values, including PAYE
     pdf.setFont(undefined, 'normal');
     pdf.setTextColor('#2c3e50');
     pdf.text(`Ksh ${detailedDeductions.nssfContribution}`, pageWidth - 14, 86, { align: 'right' });
     pdf.text(`Ksh ${detailedDeductions.shifContribution}`, pageWidth - 14, 92, { align: 'right' });
     pdf.text(`Ksh ${detailedDeductions.housingLevy}`, pageWidth - 14, 98, { align: 'right' });
+    pdf.text(`Ksh ${detailedDeductions.payeAfterRelief}`, pageWidth - 14, 104, { align: 'right' }); // PAYE value
     if (hasLoan) {
-      pdf.text(`Ksh ${detailedDeductions.loanDeduct}`, pageWidth - 14, 104, { align: 'right' });
+      pdf.text(`Ksh ${detailedDeductions.loanDeduct}`, pageWidth - 14, 110, { align: 'right' });
     }
     pdf.setFont(undefined, 'bold');
     pdf.setTextColor('#e74c3c');
-    pdf.text(`Ksh ${detailedDeductions.totalDeductions}`, pageWidth - 14, hasLoan ? 110 : 104, { align: 'right' });
-    pdf.line(14, hasLoan ? 114 : 108, pageWidth - 14, hasLoan ? 114 : 108);
+    pdf.text(`Ksh ${detailedDeductions.totalDeductions}`, pageWidth - 14, hasLoan ? 116 : 110, { align: 'right' });
+    pdf.line(14, hasLoan ? 120 : 114, pageWidth - 14, hasLoan ? 120 : 114);
 
     // Net Pay Section
     pdf.setFontSize(13);
     pdf.setTextColor('#2ecc71');
-    pdf.text('NET PAY:', 14, hasLoan ? 120 : 114);
+    pdf.text('NET PAY:', 14, hasLoan ? 126 : 120);
     pdf.setFontSize(15);
     pdf.setFont(undefined, 'bold');
     pdf.setTextColor('#27ae60');
-    pdf.text(`Ksh ${detailedDeductions.netPay}`, pageWidth - 14, hasLoan ? 120 : 114, { align: 'right' });
-    pdf.line(14, hasLoan ? 124 : 118, pageWidth - 14, hasLoan ? 124 : 118);
+    pdf.text(`Ksh ${detailedDeductions.netPay}`, pageWidth - 14, hasLoan ? 126 : 120, { align: 'right' });
+    pdf.line(14, hasLoan ? 130 : 124, pageWidth - 14, hasLoan ? 130 : 124);
 
-    // Add copyright footer
+    // Footer
     pdf.setFontSize(10);
     pdf.setFont(undefined, 'normal');
     pdf.setTextColor('#7f8c8d');
-    pdf.text('© 2024 MoabMo. All rights reserved.', pageWidth / 2, hasLoan ? 130 : 124, { align: 'center' });
+    pdf.text('© 2024 moabmo. All rights reserved.', pageWidth / 2, hasLoan ? 136 : 130, { align: 'center' });
 
     // Save the PDF
     pdf.save('net_pay_report.pdf');
-  };
+};
+
 
   return (
     <div className="container">
@@ -314,6 +329,7 @@ const NetPayCalculator = () => {
               <p>Loan Deduction: <span className="negative">Ksh {detailedDeductions.loanDeduct}</span></p>
             )}
             <p>Total Deductions: <span className="negative">Ksh {detailedDeductions.totalDeductions}</span></p>
+            <p>PAYE: <span className="negative">Ksh {detailedDeductions.payeAfterRelief} </span></p>
           </div>
 
           <div className="result-section">
