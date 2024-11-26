@@ -68,7 +68,7 @@ const NetPayCalculator = () => {
       paye = 24000 * 0.1 + (32333 - 24000) * 0.25 + (500000 - 32333) * 0.3 + (800000 - 500000) * 0.325 + (taxableIncome - 800000) * 0.35;
     }
 
-    const relief = 0.15 * (housingLevy + shifContribution) + TAX_RELIEF;
+    const relief = TAX_RELIEF;
     const finalPAYE = Math.max(paye - relief, 0);
 
     const loanDeduct = hasLoan ? parseFloat(loanDeduction) || 0 : 0;
@@ -320,16 +320,16 @@ const NetPayCalculator = () => {
             {hasLoan && (
               <p>Loan Deduction: <span className="negative">Ksh {detailedDeductions.loanDeduct}</span></p>
             )}
+            <p>PAYE: <span className="negative">Ksh -{detailedDeductions.payeAfterRelief}</span></p>
             <p>Total Deductions: <span className="negative">Ksh {detailedDeductions.totalDeductions}</span></p>
-            <p>PAYE: <span className="negative">Ksh {detailedDeductions.payeAfterRelief} </span></p>
           </div>
 
-          <div className="result-section">
+          {/* <div className="result-section">
             <p className="result-title">Tax Relief</p>
             <p>PAYE Before Relief: <span>Ksh {detailedDeductions.payeBeforeRelief}</span></p>
             <p>Tax Relief: <span>Ksh {detailedDeductions.taxRelief}</span></p>
             <p>PAYE After Relief: <span>Ksh {detailedDeductions.payeAfterRelief}</span></p>
-          </div>
+          </div> */}
 
           <h2 className="net-salary">Net Pay: Ksh {detailedDeductions.netPay}</h2>
 
