@@ -12,7 +12,7 @@ const Footer = () => {
     >
       <p>
         © 2024 moabmo | All rights reserved |
-        TaxCalculator<Flag
+        TaxCalculatorKe<Flag
           code="KE"
           style={{
             width: "25px",
