@@ -191,9 +191,9 @@ const NetPayCalculator = () => {
 
   return (
     <div className={`container ${darkMode ? "dark" : ""}`}>
-      <div className={`toggle-dark-mode ${darkMode ? "active" : ""}`} onClick={handleDarkModeToggle}>
+      {/* <div className={`toggle-dark-mode ${darkMode ? "active" : ""}`} onClick={handleDarkModeToggle}>
         <div className="toggle-circle"></div>
-      </div>
+      </div> */}
 
       <div className={`tax-calculator ${darkMode ? "dark" : ""}`}>
         <h1 className="calculator-header">
@@ -324,14 +324,14 @@ const NetPayCalculator = () => {
             <p>Total Deductions: <span className="negative">Ksh {detailedDeductions.totalDeductions}</span></p>
           </div>
 
-          {/* <div className="result-section">
+          {<div className="result-section">
             <p className="result-title">Tax Relief</p>
             <p>PAYE Before Relief: <span>Ksh {detailedDeductions.payeBeforeRelief}</span></p>
             <p>Tax Relief: <span>Ksh {detailedDeductions.taxRelief}</span></p>
             <p>PAYE After Relief: <span>Ksh {detailedDeductions.payeAfterRelief}</span></p>
-          </div> */}
+          </div>}
 
-          <h2 className="net-salary">Net Pay: Ksh {detailedDeductions.netPay}</h2>
+          <h2 className="net-salary">Net Pay : <u><b>Ksh {detailedDeductions.netPay}</b></u></h2>
 
           <button onClick={downloadPDF}>
             <FaFilePdf style={{ marginRight: '5px' }} />
