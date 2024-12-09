@@ -3,6 +3,8 @@ import jsPDF from 'jspdf';
 import { FaFilePdf, FaCalculator } from 'react-icons/fa';
 import './TaxCalculator.css';
 
+
+
 const formatNumber = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
@@ -198,7 +200,9 @@ const NetPayCalculator = () => {
       <div className={`tax-calculator ${darkMode ? "dark" : ""}`}>
         <h1 className="calculator-header">
           <FaCalculator style={{ marginRight: '10px' }} />
+
           Net Pay Calculator
+      
         </h1>
 
         <div className="input-container">
