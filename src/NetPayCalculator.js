@@ -55,7 +55,7 @@ const NetPayCalculator = () => {
     const shifContribution = gross * SHIF_RATE;
     const housingLevy = gross * HOUSING_LEVY_RATE;
 
-    let taxableIncome = gross - nssfContribution - pension;
+    let taxableIncome = gross - nssfContribution - pension - shifContribution - housingLevy;
     let paye = 0;
 
     if (taxableIncome <= 24000) {
@@ -311,6 +311,7 @@ const NetPayCalculator = () => {
             <p>Basic Salary: <span>Ksh {detailedDeductions.basicSalary}</span></p>
             <p>Allowances: <span>Ksh {detailedDeductions.allowances}</span></p>
             <p>Total Earnings: <span>Ksh {detailedDeductions.grossSalary}</span></p>
+            <p>Taxable Pay: <span>Ksh {detailedDeductions.taxableIncome} </span></p>
           </div>
 
           <div className="result-section">
@@ -325,11 +326,11 @@ const NetPayCalculator = () => {
               <p>Loan Deduction: <span className="negative">Ksh {detailedDeductions.loanDeduct}</span></p>
             )}
             <p>PAYE: <span className="negative">Ksh -{detailedDeductions.payeAfterRelief}</span></p>
-            <p>Total Deductions: <span className="negative">Ksh {detailedDeductions.totalDeductions}</span></p>
+            <p>Total Deductions: <span style={{ fontWeight: 'bolder', fontSize: '110%', color: '#e74c3c' }}>Ksh {detailedDeductions.totalDeductions}</span></p>
           </div>
 
           {<div className="result-section">
-            <p className="result-title">Tax Relief</p>
+            <p className="result-title">Tax</p>
             <p>PAYE Before Relief: <span>Ksh {detailedDeductions.payeBeforeRelief}</span></p>
             <p>Tax Relief: <span>Ksh {detailedDeductions.taxRelief}</span></p>
             <p>PAYE After Relief: <span>Ksh {detailedDeductions.payeAfterRelief}</span></p>
