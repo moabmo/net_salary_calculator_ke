@@ -1,7 +1,13 @@
+
+
+
+
 import React from "react";
 import Flag from "react-world-flags";
 
 const Footer = () => {
+  //Define the current year
+  const currentYear = new Date().getFullYear();
   return (
     <footer
       style={{
@@ -11,7 +17,7 @@ const Footer = () => {
       }}
     >
       <p>
-        © 2024 moabmo | All rights reserved |
+        © {currentYear} moabmo | All rights reserved |
         TaxCalculatorKe<Flag
           code="KE"
           style={{
